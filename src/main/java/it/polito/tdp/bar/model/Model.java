@@ -1,10 +1,12 @@
 package it.polito.tdp.bar.model;
 
 public class Model {
+	
+	Simulator simulatore = new Simulator();
 
 	public String Simula() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return this.simulatore.run();
 	}
 
 }

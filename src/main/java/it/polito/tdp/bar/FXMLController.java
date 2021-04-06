@@ -27,6 +27,10 @@ public class FXMLController {
     
     private void Stampante (String s) {
     	
+    	txtResult.clear();
+    	
+    	txtResult.appendText(s);
+    	
     }
 
     @FXML

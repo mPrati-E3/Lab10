@@ -1,5 +1,6 @@
 package it.polito.tdp.bar.model;
 
+import java.time.Duration;
 import java.time.LocalTime;
 
 public class Event implements Comparable<Event>{
@@ -11,20 +12,22 @@ public class Event implements Comparable<Event>{
 	private LocalTime time ;
 	private EventType type ;
 	private int num_persone;
-	private LocalTime durata;
+	private Duration durata;
 	private float tolleranza;
+	private int tavoloAssociato;
 	
 	/**
 	 * @param time
 	 * @param type
 	 */
-	public Event(LocalTime time, EventType type, int np, LocalTime durata, float tolleranza) {
+	public Event(LocalTime time, EventType type, int np, Duration durata, float tolleranza, int t) {
 		super();
 		this.time = time;
 		this.type = type;
 		this.num_persone=np;
 		this.durata=durata;
 		this.tolleranza=tolleranza;
+		this.tavoloAssociato=t;
 	}
 
 	public LocalTime getTime() {
@@ -51,11 +54,11 @@ public class Event implements Comparable<Event>{
 		this.num_persone = num_persone;
 	}
 
-	public LocalTime getDurata() {
+	public Duration getDurata() {
 		return durata;
 	}
 
-	public void setDurata(LocalTime durata) {
+	public void setDurata(Duration durata) {
 		this.durata = durata;
 	}
 
@@ -71,6 +74,19 @@ public class Event implements Comparable<Event>{
 	public String toString() {
 		return "Event [time=" + time + ", type=" + type + ", num_persone=" + num_persone + ", durata=" + durata
 				+ ", tolleranza=" + tolleranza + "]";
+	}
+
+	@Override
+	public int compareTo(Event other) {
+		return this.time.compareTo(other.time);
+	}
+
+	public int getTavoloAssociato() {
+		return tavoloAssociato;
+	}
+
+	public void setTavoloAssociato(int tavoloAssociato) {
+		this.tavoloAssociato = tavoloAssociato;
 	}
 
 	

@@ -7,18 +7,24 @@ import java.util.PriorityQueue;
 
 import it.polito.tdp.bar.model.Event.EventType;
 
-
 public class Simulator {
 	
 		//coda eventi
 		private PriorityQueue<Event> queue = new PriorityQueue<Event>();
 	
 		//paramentri di simulazione----------------------------------------------------
+		
+		//quanti eventi di arrivo ho fatto sul numeroEventiTot
 		private int eventiFatti=0;
+		//numero totale di eventi di arrivo
 		private final int numeroEventiTot = 2000;
+		//numero di tavoli
 		private final int numeroTavoli = 15;
+		//soglia per cui ai clienti piace stare al bancone
 		private final float sogliaTol = (float) 0.9f;
+		//apertura del bar, chiuderà dopo numeroEventiTot
 		private final LocalTime oraArrivo = LocalTime.of(6, 00);
+		//vettore che gestisce i tavoli
 		private Tavolo[] tavoli = {
 				new Tavolo(0,10,false),
 				new Tavolo(1,10,false),
@@ -58,7 +64,7 @@ public class Simulator {
 		//metodo di simulazione vero e prorpio------------------------------------------
 		public String run() {
 			
-			//simulazione iniziale (mondo+coda eventi)
+			//azzero e pulisco tutto
 			this.clienti=0;
 			this.insoddisfatti=0;
 			this.soddisfatti=0;
@@ -66,11 +72,12 @@ public class Simulator {
 			for (int i=0; i<numeroTavoli; i++) {
 				tavoli[i].setOccupato(false);
 			}
-			
 			this.queue.clear();
 			
+			//popolo la coda con gli eventi di arrivo
 			do {
 				
+				//creo un nuovo evento di arrivo e lo aggiungo alla coda poi aumento gli eventiFatti
 				double numTime = Math.random();
 				this.oraArrivo.plus(Duration.of((long) (numTime*10), ChronoUnit.MINUTES));
 				double numPers = Math.random();
@@ -89,37 +96,40 @@ public class Simulator {
 				
 				this.eventiFatti++;
 				
-				
+				//termino al raggiungimento di numeroTotEventi
 			} while (this.eventiFatti<numeroEventiTot);
 			
 			//esecuzione del ciclo di simulazione
-			
 			while (!this.queue.isEmpty()) {
 				
 				Event e = this.queue.poll();
-				System.out.println(e);
+				//System.out.println(e);
 				
 				processEvent(e);
 			}
 			
-			
+			//ritorno la stringa da stampare
 			return " Clienti arrivati: "+this.clienti+
 					"\n Clienti soddisfatti: "+this.soddisfatti+
 					"\n Clienti insoddisfatti: "+this.insoddisfatti;
 			
 		}
 
+		//analizzo e processo gli eventi
 		private void processEvent(Event e) {
 			
 			switch (e.getType()) {
 			
+			//caso in cui srrivano dei nuovi clienti
 			case ARRIVO_GRUPPO_CLIENTI:
 				
 				int quantiSono = e.getNum_persone();
+				//questo flag mi dice se sono riuscito o meno a piazzare i clienti
 				boolean liHoPiazzati=false;
 				
 				clienti=clienti+quantiSono;
 				
+				//provo a metterli in un tavolo
 				for (int i=0; i<numeroTavoli; i++) {
 					if ((!tavoli[i].isOccupato()) && tavoli[i].getPosti()>=quantiSono) {
 						
@@ -142,6 +152,7 @@ public class Simulator {
 					}	
 				}
 				
+				//provo a metterli al bancone
 				if (!liHoPiazzati && e.getTolleranza()<sogliaTol) {
 					
 					liHoPiazzati=true;
@@ -158,7 +169,7 @@ public class Simulator {
 					
 					queue.add(nuovo);
 					
-					
+				//non sono riuscito a metterli ne ai tavoli e ne al bancone, li devo mandare via	
 				} else if (!liHoPiazzati){
 					insoddisfatti=insoddisfatti+quantiSono;
 				}
@@ -168,6 +179,7 @@ public class Simulator {
 				
 			case CLIENTI_LASCIANO_BAR:
 				
+				//libero il tavolo occupato dai clienti
 				for (int i=0; i<numeroTavoli; i++) {
 					if (tavoli[i].getId()==e.getTavoloAssociato()) {
 						tavoli[i].setOccupato(false);

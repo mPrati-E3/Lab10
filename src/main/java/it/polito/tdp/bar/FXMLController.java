@@ -25,6 +25,7 @@ public class FXMLController {
     @FXML // fx:id="txtResult"
     private TextArea txtResult; // Value injected by FXMLLoader
     
+    //stampo la stringa che mi ritorana dal modello
     private void Stampante (String s) {
     	
     	txtResult.clear();
@@ -33,6 +34,7 @@ public class FXMLController {
     	
     }
 
+    //quando premo il pulsante, chiamo il modello per la simulazione
     @FXML
     void handleSimula(ActionEvent event) {
     	

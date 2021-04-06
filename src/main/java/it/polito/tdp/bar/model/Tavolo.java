@@ -1,5 +1,6 @@
 package it.polito.tdp.bar.model;
 
+//javabean che descrive un tavolo (l'id è superfluo ma inserito per comodità)
 public class Tavolo {
 	
 	private int id;

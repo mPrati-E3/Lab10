@@ -3,17 +3,25 @@ package it.polito.tdp.bar.model;
 import java.time.Duration;
 import java.time.LocalTime;
 
+//tipo di evento che il simulatore gestisce
 public class Event implements Comparable<Event>{
 	
+	//tipi di evento: o i clienti arrivano o se ne vanno
 	public enum EventType {
 		ARRIVO_GRUPPO_CLIENTI, CLIENTI_LASCIANO_BAR
 	}
 	
+	//quando un cliente arriva
 	private LocalTime time ;
+	//tipo di evento
 	private EventType type ;
+	//quante persone arrivano
 	private int num_persone;
+	//per quanto le persone occupano il tavolo
 	private Duration durata;
+	//alle persone piace stare al bancone?
 	private float tolleranza;
+	//tavolo associato alle persone
 	private int tavoloAssociato;
 	
 	/**
